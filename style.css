@@ -1,0 +1,28 @@
+html{
+    background-image: url("r6_background.jpg");
+    background-position: center;
+}
+body, table{
+  max-width: 55%;
+  margin: auto;
+  border: solid 3px black;
+  text-align: center;
+    background-color: white;
+}
+
+.padding_top, table{
+  padding-top: 10px;
+}
+table,td , th {
+  border-collapse: collapse;
+   width: 600px;
+  text-align: left;
+  border: solid 3px black
+}
+th{
+  background-color: darkgrey;
+}
+ul {
+    text-align: center;
+    list-style-position: inside;
+}

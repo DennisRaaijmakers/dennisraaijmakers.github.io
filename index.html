@@ -1,0 +1,112 @@
+<html>
+<head>
+    <script defer src="https://unpkg.com/alpinejs@3.5.0/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="API_project_styling.css">
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<!--Geeft een lijst van alle spelers die bestaan in de database-->
+<h2>Alle namen van de spelers:</h2>
+
+<div x-data="{
+        players: null,
+        async getData() {
+            this.players = await (await fetch('http://127.0.0.1:8000/player/info/all')).json();
+        }
+    }">
+    <button x-on:click="getData">Show players</button>
+
+    <table class="padding_top">
+        <thead>
+        <tr>
+            <th>Username</th>
+            <th>Name player</th>
+            <th>Email</th>
+            <th>mmr</th>
+        </tr>
+        </thead>
+        <tbody>
+        <template x-for="player in players">
+            <tr>
+                <td x-text="player.user_name"></td>
+                <td x-text="player.first_name + ' ' + player.last_name"></td>
+                <td x-text="player.email"></td>
+                <td x-text="player.mmr"></td>
+            </tr>
+        </template>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function alpineInstance() {
+        return {
+            opperatorArray: {}
+        }
+    }
+
+
+</script>
+
+<h2>Alle opperators uit de lijst</h2>
+<ul x-data="alpineInstance()" x-init="fetch('http://127.0.0.1:8000/opperator/info/all')
+  .then(response => response.json())
+  .then(data => opperatorArray = data)">
+    <template x-for="(item) in opperatorArray" :key="index">
+        <li x-text="item.opperator_name"></li>
+    </template>
+</ul>
+
+<h2>Maak een player aan:</h2>
+
+<div x-data="{
+        responsedata: null,
+        user_name: null,
+        first_name: null,
+        last_name: null,
+        email: null,
+        mmr: null,
+        async createPlayer() {
+            this.responsedata = await (await fetch('http://127.0.0.1:8000/player/create',
+            {
+                method: 'POST',
+                body: JSON.stringify({
+                    user_name: this.user_name,
+                    first_name: this.first_name,
+                    last_name: this.last_name,
+                    email: this.email,
+                    mmr: this.mmr
+                }),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            })).json();
+        },
+    }">
+    <div>
+        <label>Username:</label>
+        <input type="text" x-model="user_name"/>
+    </div>
+    <div>
+        <label>Firstname:</label>
+        <input type="text" x-model="first_name"/>
+    </div>
+    <div>
+        <label>lastname:</label>
+        <input type="text" x-model="last_name"/>
+    </div>
+    <div>
+        <label>Email:</label>
+        <input type="email" x-model="email"/>
+    </div>
+    <div>
+        <label>MMR:</label>
+        <input type="text" x-model="mmr"/>
+    </div>
+
+    <button x-on:click="createPlayer">Submit</button>
+</div>
+
+</body>
+</html>
