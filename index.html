@@ -49,7 +49,7 @@
 
 </script>
 
-<h2>Alle opperators uit de lijst</h2>
+<h2>Alle operators uit de lijst</h2>
 <ul x-data="alpineInstance()" x-init="fetch('http://127.0.0.1:8000/opperator/info/all')
   .then(response => response.json())
   .then(data => opperatorArray = data)">
